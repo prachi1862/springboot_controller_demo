@@ -1,10 +1,10 @@
 package com.prachi9.springboot_mvc_demo.controller;
 
-import Repositories.EmployeeRepository;
-import com.prachi9.springboot_mvc_demo.EmployeeDTO;
+import com.prachi9.springboot_mvc_demo.repositories.EmployeeRepository;
+import com.prachi9.springboot_mvc_demo.entities.EmployeeEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDate;
+import com.prachi9.springboot_mvc_demo.dto.EmployeeDTO;
+import java.util.List;
 
 @RestController
 @RequestMapping(path="/employee")
@@ -14,16 +14,21 @@ public class EmployeeController {
 //    public String getSecretMsg() {
 //        return "Secret Message: gygsuise";
 //    }
+private final EmployeeRepository employeeRepository;
 
+    public EmployeeController(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
+    }
     @GetMapping("/{employeeID}")
-    public EmployeeDTO getEmployeebyID (@PathVariable(name="employeeID") Long id)
+    public EmployeeEntity getEmployeeByID (@PathVariable(name="employeeID") Long id)
     {
-        return new EmployeeDTO(id, "Prachi Mehra", "prachiiii@gmail.com", 21, LocalDate.of(2004, 5, 18), true);
+        return employeeRepository.findById(id).orElse(null);
     }
     @GetMapping()
-    public String getEmployeeAge(@RequestParam(required = false, name="inputAge") int age)
+    public List<EmployeeEntity> getAllEmployees(@RequestParam(required = false) Integer age)
     {
-        return "HI!!! age: " + age;
+        return employeeRepository.findAll();
+
     }
 
 //    @PostMapping()
@@ -33,10 +38,9 @@ public class EmployeeController {
 //    }
 
     @PostMapping()
-    public EmployeeDTO createEmployee(@RequestBody EmployeeDTO inputEmployee)
+    public EmployeeEntity createEmployee(@RequestBody EmployeeEntity inputEmployee)
     {
-        inputEmployee.setId(69);
-        return inputEmployee;
+        return employeeRepository.save(inputEmployee);
     }
 }
 

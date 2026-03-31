@@ -1,4 +1,4 @@
-package com.prachi9.springboot_mvc_demo;
+package com.prachi9.springboot_mvc_demo.dto;
 
 import java.time.LocalDate;
 

@@ -1,10 +1,9 @@
-package Repositories;
+package com.prachi9.springboot_mvc_demo.repositories;
 
-import entities.EmployeeEntity;
+import com.prachi9.springboot_mvc_demo.entities.EmployeeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 @Repository
 public interface EmployeeRepository extends JpaRepository<EmployeeEntity, Long> {
     //List<EmployeeEntity> findByName(String name);
