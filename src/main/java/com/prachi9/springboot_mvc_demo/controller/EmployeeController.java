@@ -1,7 +1,6 @@
 package com.prachi9.springboot_mvc_demo.controller;
 
-import com.prachi9.springboot_mvc_demo.repositories.EmployeeRepository;
-import com.prachi9.springboot_mvc_demo.entities.EmployeeEntity;
+import com.prachi9.springboot_mvc_demo.services.EmployeeService;
 import org.springframework.web.bind.annotation.*;
 import com.prachi9.springboot_mvc_demo.dto.EmployeeDTO;
 import java.util.List;
@@ -10,37 +9,28 @@ import java.util.List;
 @RequestMapping(path="/employee")
 public class EmployeeController {
 
-//    @GetMapping(path = "/getsecretmsg")
-//    public String getSecretMsg() {
-//        return "Secret Message: gygsuise";
-//    }
-private final EmployeeRepository employeeRepository;
+private final EmployeeService employeeService;
 
-    public EmployeeController(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
-    }
+public EmployeeController(EmployeeService employeeService) {
+    this.employeeService = employeeService;
+}
+
     @GetMapping("/{employeeID}")
-    public EmployeeEntity getEmployeeByID (@PathVariable(name="employeeID") Long id)
+    public EmployeeDTO getEmployeeByID (@PathVariable(name="employeeID") Long id)
     {
-        return employeeRepository.findById(id).orElse(null);
+        return employeeService.getEmployeeByID(id);
     }
     @GetMapping()
-    public List<EmployeeEntity> getAllEmployees(@RequestParam(required = false) Integer age)
+    public List<EmployeeDTO> getAllEmployees(@RequestParam(required = false) Integer age)
     {
-        return employeeRepository.findAll();
+        return employeeService.getAllEmployees();
 
     }
 
-//    @PostMapping()
-//    public String newEmployee()
-//    {
-//        return "Hi!!! from PostMapping";
-//    }
-
     @PostMapping()
-    public EmployeeEntity createEmployee(@RequestBody EmployeeEntity inputEmployee)
+    public EmployeeDTO createEmployee(@RequestBody EmployeeDTO inputEmployee)
     {
-        return employeeRepository.save(inputEmployee);
+        return employeeService.createEmployee(inputEmployee);
     }
 }
 
